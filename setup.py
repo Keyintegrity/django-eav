@@ -21,10 +21,10 @@ from distutils.core import setup
 setup(
     name='django-eav',
     version=__import__('eav').__version__,
-    license = 'GNU Lesser General Public License (LGPL), Version 3',
+    license='GNU Lesser General Public License (LGPL), Version 3',
 
-    requires = ['python (>= 2.5)', 'django (>= 1.2)'],
-    provides = ['eav'],
+    requires=['python (>= 2.5)', 'django (>= 1.2)'],
+    provides=['eav'],
 
     description='Entity-attribute-value model implementation as a reusable'
                 'Django app.',
@@ -32,9 +32,9 @@ setup(
 
     url='http://github.com/sromero84/django-eav',
 
-    packages=['eav', 'eav.tests'],
+    packages=['eav', 'eav.tests', 'eav.migrations'],
 
-    classifiers = [
+    classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Web Environment',
         'Framework :: Django',
