@@ -44,7 +44,7 @@ class BaseEntityAdmin(ModelAdmin):
         fieldsets = self.fieldsets or [(None, {'fields': form.fields.keys()})]
         adminform = admin.helpers.AdminForm(form, fieldsets,
                                       self.prepopulated_fields)
-        media = mark_safe(self.media + adminform.media)
+        media = mark_safe(context['media'] + adminform.media)
 
         context.update(adminform=adminform, media=media)
 
