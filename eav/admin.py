@@ -27,6 +27,7 @@ from django.utils.safestring import mark_safe
 
 from .models import Attribute, Value, EnumValue, EnumGroup
 
+
 class BaseEntityAdmin(ModelAdmin):
 
     def render_change_form(self, request, context, add=False, change=False, form_url='', obj=None):
@@ -41,9 +42,21 @@ class BaseEntityAdmin(ModelAdmin):
         form = context['adminform'].form
 
         # infer correct data from the form
-        fieldsets = self.fieldsets or [(None, {'fields': form.fields.keys()})]
-        adminform = admin.helpers.AdminForm(form, fieldsets,
-                                      self.prepopulated_fields)
+        readonly_fields = context['adminform'].readonly_fields
+        form_fields = list(form.fields.keys())
+        # Выбран такой способ объединенения, что б не нарушить подрядок.
+        fields = []
+        for item in (list(readonly_fields) + list(form_fields)):
+            if item not in fields:
+                fields.append(item)
+
+        fieldsets = self.fieldsets or [(None, {'fields': fields})]
+
+        model_admin = context['adminform'].model_admin
+        adminform = admin.helpers.AdminForm(
+            form, fieldsets, self.prepopulated_fields, readonly_fields=readonly_fields,
+            model_admin=model_admin
+        )
         media = mark_safe(context['media'] + adminform.media)
 
         context.update(adminform=adminform, media=media)
